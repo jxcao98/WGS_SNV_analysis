@@ -146,6 +146,7 @@ do
 	logfile=./log/$file_name.log
 	exec >$logfile 2>&1
 
+	# Annovar basic
 	$ANNOVAR_PATH/table_annovar.pl \
 		$annovarinput_path/$file_chr \
 		$ANNOVAR_PATH/humandb/ \
@@ -154,6 +155,20 @@ do
 		--remove \
 		--protocol ensGene,cytoBand,intervar_20180118,dbnsfp41a,dbscsnv11,spidex,regsnpintron,gwava,gerp++gt2,cadd13,fathmm,eigen,dann,clinvar_20210501,gnomad211_exome,gnomad211_genome,gwasCatalog,tfbsConsSites \
 		--operation g,r,f,f,f,f,f,f,f,f,f,f,f,f,f,f,r,r \
+		--nastring . \
+		--thread $nt
+	
+	# function genome (optional)
+	$ANNOVAR_PATH/table_annovar.pl \
+		$annovarinput_path/$file_chr \
+		$ANNOVAR_PATH/humandb/ \
+		--buildver hg19 \
+		--out ./${file_name}_functional_genome \
+		--remove \
+		--protocol bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed,bed \
+		--bedfile hg19_custom-cCRE-blood_monocyte-ENCODE.bed,hg19_custom-cCRE-nervous_neuronal-Nott.bed,hg19_custom-cCRE-brain_DLPFC-ROADMAP.bed,hg19_custom-cCRE-brain_DLPFC-PsychENCODE.bed,hg19_custom-cCRE-nervous_microglia-Nott.bed,hg19_custom-cCRE-brain_HIP-ROADMAP.bed,hg19_custom-cCRE_prom_loop-brain_DLPFC-PsychENCODE.bed,hg19_custom-cCRE-brain_CG-ROADMAP.bed,hg19_custom-cCRE-nervous_oligodendrocyte-Nott.bed,hg19_custom-cCRE-nervous_astrocyte-Nott.bed,hg19_custom-cCRE-brain_TC-ROADMAP.bed,hg19_custom-EPLink-brain_DLPFC-roadmap_JEME.bed,hg19_custom-EPLink-brain_HIP-fantom5_JEME.bed,hg19_custom-EPLink-brain_DLPFC-fantom5_JEME.bed,hg19_custom-EPLink-brain_HIP-roadmap_JEME.bed,hg19_custom-EPLink-brain_DLPFC-fantom5_Yang.bed,hg19_custom-EPLink-blood_macrophage-fantom5_JEME.bed,hg19_custom-EPLink-blood_monocyte-fantom5_JEME.bed,hg19_custom-EPLink-blood_macrophage-VanBortle_ABC.bed,hg19_custom-EPLink-brain_TC-fantom5_Yang.bed,hg19_custom-EPLink-blood_monocyte-roadmap_JEME.bed,hg19_custom-EPLink-blood_monocyte-encode_ABC.bed,hg19_custom-EPLink-blood_monocyte-roadmap_ABC.bed,hg19_custom-EPLink-blood_macrophage-fantom5_Yang.bed,hg19_custom-EPLink-brain_DLPFC-PsychENCODE.bed,hg19_custom-EPLink-blood_monocyte-fantom5_Yang.bed,hg19_custom-EPLink-brain_HIP-fantom5_Yang.bed,hg19_custom-EPLink-brain_TC-fantom5_JEME.bed,hg19_custom-EPLink-brain_CG-roadmap_JEME.bed,hg19_custom-EPLink-brain_TC-roadmap_JEME.bed,hg19_custom-ChromatinState_15-brain_HIP-ROADMAP.bed,hg19_custom-ChromatinState_15-brain_DLPFC-ROADMAP.bed,hg19_custom-ChromatinState_18-brain_HIP-ROADMAP.bed,hg19_custom-ChromatinState_18-brain_CG-ROADMAP.bed,hg19_custom-ChromatinState_15-blood_monocyte-ROADMAP.bed,hg19_custom-ChromatinState_15-brain_CG-ROADMAP.bed,hg19_custom-ChromatinState_18-brain_DLPFC-ROADMAP.bed,hg19_custom-ChromatinState_15-brain_TC-ROADMAP.bed,hg19_custom-ChromatinState_18-blood_monocyte-ROADMAP.bed,hg19_custom-ChromatinState_18-brain_TC-ROADMAP.bed,hg19_custom-Dnase-full-UCSC.bed,hg19_custom-GeneBody-full-Ensembl.bed,hg19_custom-Promoter-full-Ensembl.bed,hg19_custom-CpG-full-UCSC.bed,hg19_custom-TAD-brain_DLPFC-Schmitt.bed,hg19_custom-TAD-brain_HIP-Schmitt.bed,hg19_custom-Histone-brain_CG-ROADMAP.bed,hg19_custom-Histone-brain_DLPFC-PsychENCODE.bed,hg19_custom-Histone-nervous_oligodendrocyte-Nott.bed,hg19_custom-Histone-nervous_microglia-Nott.bed,hg19_custom-Histone-brain_HIP-ROADMAP.bed,hg19_custom-Histone-brain_DLPFC-ROADMAP.bed,hg19_custom-Histone-nervous_astrocyte-Nott.bed,hg19_custom-Histone-nervous_neuronal-Nott.bed,hg19_custom-Histone-brain_TC-ROADMAP.bed,hg19_custom-Histone-brain_TC-PsychENCODE.bed,hg19_custom-Histone-blood_monocyte-ROADMAP.bed \
+		-argument '-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4','-colsWanted 4' \
+		--operation r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r,r \
 		--nastring . \
 		--thread $nt
 
