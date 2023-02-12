@@ -140,4 +140,4 @@ do
 		--emit_mode gvcf \
 		$sample_name.g.vcf.gz
 		
-done $id_mapping
+done < $id_mapping
