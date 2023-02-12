@@ -84,51 +84,51 @@ cd ${runDir}/02_vqsr
 # VQSR for SNV
 $GATK_INSTALL_DIR/gatk VariantRecalibrator \
 	-R $ref_genome \
-    -V ${runDir}/01_joint_calling/cohort_SNV_norm.vcf.gz \
+	-V ${runDir}/01_joint_calling/cohort_SNV_norm.vcf.gz \
 	-resource:hapmap,known=false,training=true,truth=true,prior=15 $snv_hapmap \
-    -resource:omni,known=false,training=true,truth=true,prior=12 $snv_omni \
-    -resource:1000G,known=false,training=true,truth=false,prior=10 $snv_1kg_highconf \
-    -resource:dbsnp,known=true,training=false,truth=false,prior=2 $variant_dnsnp \
+	-resource:omni,known=false,training=true,truth=true,prior=12 $snv_omni \
+	-resource:1000G,known=false,training=true,truth=false,prior=10 $snv_1kg_highconf \
+	-resource:dbsnp,known=true,training=false,truth=false,prior=2 $variant_dnsnp \
 	-an QD -an MQ -an MQRankSum -an ReadPosRankSum -an FS -an SOR -an DP \
-    -mode SNP \
-    -tranche 100.0 -tranche 99.9 -tranche 99.5 -tranche 99.0 -tranche 98.0 -tranche 97.0 -tranche 95.0 -tranche 90.0 \
+	-mode SNP \
+	-tranche 100.0 -tranche 99.9 -tranche 99.5 -tranche 99.0 -tranche 98.0 -tranche 97.0 -tranche 95.0 -tranche 90.0 \
 	--rscript-file cohort_snps.R \
 	--tranches-file cohort_snps.tranches \
-    -O cohort_snps.recal
+	-O cohort_snps.recal
 
 $GATK_INSTALL_DIR/gatk ApplyVQSR \
 	-R $ref_genome \
-    -V ${runDir}/01_joint_calling/cohort_SNV_norm.vcf.gz \
-    --recal-file cohort_snps.recal \
-    --tranches-file cohort_snps.tranches \
-    --truth-sensitivity-filter-level $vqsr_threshold \
-    --create-output-variant-index true \
-    -mode SNP \
-    -O cohort_SNV_vqsr_snp.vcf.gz
+	-V ${runDir}/01_joint_calling/cohort_SNV_norm.vcf.gz \
+	--recal-file cohort_snps.recal \
+	--tranches-file cohort_snps.tranches \
+	--truth-sensitivity-filter-level $vqsr_threshold \
+	--create-output-variant-index true \
+	-mode SNP \
+	-O cohort_SNV_vqsr_snp.vcf.gz
 
 # VQSR for INDEL
 $GATK_INSTALL_DIR/gatk VariantRecalibrator \
 	-R $ref_genome \
-    -V cohort_SNV_vqsr_snp.vcf.gz \
+	-V cohort_SNV_vqsr_snp.vcf.gz \
 	-resource:mills,known=false,training=true,truth=true,prior=12 $indel_mill \
-    -resource:dbsnp,known=true,training=false,truth=false,prior=2 $variant_dnsnp \
+	-resource:dbsnp,known=true,training=false,truth=false,prior=2 $variant_dnsnp \
 	-an QD -an DP -an FS -an SOR -an ReadPosRankSum -an MQRankSum \
 	-mode INDEL \
-    -tranche 100.0 -tranche 99.9 -tranche 99.5 -tranche 99.0 -tranche 98.0 -tranche 97.0 -tranche 95.0 -tranche 90.0 \
-    --max-gaussians 6 \
+	-tranche 100.0 -tranche 99.9 -tranche 99.5 -tranche 99.0 -tranche 98.0 -tranche 97.0 -tranche 95.0 -tranche 90.0 \
+	--max-gaussians 6 \
 	--rscript-file cohort_indels.R \
 	--tranches-file cohort_indels.tranches \
-    -O cohort_indels.recal
+	-O cohort_indels.recal
 
 $GATK_INSTALL_DIR/gatk ApplyVQSR \
 	-R $ref_genome \
-    -V cohort_SNV_vqsr_snp.vcf.gz \
-    --recal-file cohort_indels.recal \
-    --tranches-file cohort_indels.tranches \
-    --truth-sensitivity-filter-level $vqsr_threshold \
-    --create-output-variant-index true \
-    -mode INDEL \
-    -O cohort_SNV_vqsr_all.vcf.gz
+	-V cohort_SNV_vqsr_snp.vcf.gz \
+	--recal-file cohort_indels.recal \
+	--tranches-file cohort_indels.tranches \
+	--truth-sensitivity-filter-level $vqsr_threshold \
+	--create-output-variant-index true \
+	-mode INDEL \
+	-O cohort_SNV_vqsr_all.vcf.gz
 
 # Filter variants labeled PASS
 bcftools view -f PASS cohort_SNV_vqsr_all.vcf.gz -Oz -o cohort_SNV_HC.vcf.gz
