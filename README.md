@@ -1,6 +1,6 @@
 # WGS_SNV_analysis
 ## WGS variant discovery and quality control
-Before executing this pipeline, you need to create a comma-separated file to specify the sample name and fastq file path (Sample ID, Fastq1, Fastq2). Headers is not needed. An example is `/Variant_Discovery/cohort_info.txt`. You also need a config files to specify necessary path of tools and data, like `/Variant_Discovery/myConfigFile.config`
+Before executing this pipeline, you need to create a comma-separated file to specify the sample name and fastq file path (Sample ID, Fastq1, Fastq2). Headers are unnecessary. An example is `/Variant_Discovery/cohort_info.txt`. You also need a config file to specify path of tools and data, like `/Variant_Discovery/myConfigFile.config`
 ### Step0 Check the quality of the sequence data
 `sh /Variant_Discovery/run_00_fastqc.sh myConfigFile.config`
 ### Step1 Perform sequence alignment and SNV detection on individual samples
