@@ -14,3 +14,9 @@ In this step, sentieon is used to perform sequence alignment and variant detecti
 `sh /Variant_Discovery/run_03_QC.sh myConfigFile.config`
 ### Step4 Variant annotations for prioritization
 `sh /Variant_Discovery/run_04_Annotation.sh myConfigFile.config`
+
+
+## Variant prioritization
+Rare variants often lack statistical validity, so we recommend performing a cascade-based filtering strategy. In this pipeline, we will filter to keep rare and likely deleterious variants based on annotation results. After that, the next analyses are personalized, and examining loci in known disease-causative genes may be a good start.
+  
+  `python ./Variant_Priorization/Main.py`
