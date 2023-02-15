@@ -1,6 +1,6 @@
 """
-Variants are filtered based on the annotation results, and only those which was rare and likely deleterious are retained.
-Easily processed table files saved finally.
+Filtering to keep rare and likely deleterious variants according to annotation results.
+A typical VCF file and a view-friendly table file containing the annotation information are generated.
 """
 
 import pandas as pd
@@ -41,4 +41,12 @@ df_merge = pd.merge(df_filter_annotation, df_filter_cohort_info, on='vcf_identif
 
 
 # By now, we have a set that contains only rare and likely deleterious variants.
-# The next analyses are personalized, and examine loci in known risk genes may be a good start.
+# The next analyses are personalized, and examine loci in known known disease causative genes may be a good start.
+
+# [5] Examining variants in known disease causative genes
+known_genes = []
+df_filter_0 = df_merge[df_merge['SYMBOL'].isin(known_genes)].copy() # variants in known disease causative genes
+df_filter_1 = df_filter_0[(df_filter_0['NC_hom_num'] == 0) & (df_filter_0['NC_het_num'] == 0)].copy() # variants not carried by NC
+df_filter_2 = df_filter_1[(df_filter_1['Case_hom_num'] > 0) | (df_filter_1['Case_het_num'] > 0)].copy() # Variants carried by Case
+
+# We can also explore novel risk genes, and those loci that recurrent in cases may be promising.
